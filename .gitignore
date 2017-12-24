@@ -1,0 +1,11 @@
+# vim
+*~
+*.swp
+
+# python
+__pycache__
+/.ipynb_checkpoints
+/.cache
+
+# this project
+/ve
