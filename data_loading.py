@@ -9,10 +9,17 @@ def load_csv_file(filename):
         for line in reader:
             try:
                 date = line['Date']
-                kwh = float(line['kWh'].replace(',', '.'))
-                temp = float(line['Température moyenne (°C)'].replace(',', '.'))
+                kwh = line['kWh'].replace(',', '.')
+                temp = line['Température moyenne (°C)'].replace(',', '.')
+
+                if temp == '' or kwh == '':
+                    continue
+
+                kwh = float(kwh)
+                temp = float(temp)
             except Exception:
-                print(f'Error reading file {filename}')
+                print('Error reading file {}'.format(f))
+                print(line)
                 traceback.print_exc()
                 raise
             assert date not in data
@@ -29,7 +36,7 @@ def load_csv_files(*filenames):
         # check if we have the same date twice
         all_dates = set(data_all).intersection(data)
         if len(all_dates) > 0:
-            raise ValueError(f'File "{f}" adds redundate dates')
+            raise ValueError('File "{}" adds redundate dates'.format(f))
 
         data_all.update(data)
     return data_all
